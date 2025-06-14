@@ -1,0 +1,46 @@
+`timescale 1ns / 1ps
+
+module tb_alu_16bit;
+
+    reg [15:0] A;
+    reg [15:0] B;
+    reg [3:0] sel;
+
+   
+    wire [15:0] Y;
+    wire carry_out;
+    alu_16bit uut (
+        .A(A),
+        .B(B),
+        .sel(sel),
+        .Y(Y),
+        .carry_out(carry_out)
+    );
+
+    
+    initial begin
+        // Test 1: ADD
+        A = 16'd10; B = 16'd15; sel = 4'b0000; #10;
+        // Test 2: SUB
+        A = 16'd20; B = 16'd5; sel = 4'b0001; #10;
+        // Test 3: AND
+        A = 16'hF0F0; B = 16'h0F0F; sel = 4'b0010; #10;
+        // Test 4: OR
+        A = 16'hAAAA; B = 16'h5555; sel = 4'b0011; #10;
+        // Test 5: XOR
+        A = 16'hAAAA; B = 16'h5555; sel = 4'b0100; #10;
+        // Test 6: NOT
+        A = 16'hAAAA; sel = 4'b0101; #10;
+        // Test 7: INCREMENT
+        A = 16'd99; sel = 4'b0110; #10;
+        // Test 8: DECREMENT
+        A = 16'd1; sel = 4'b0111; #10;
+        // Test 9: SHIFT LEFT
+        A = 16'd2; sel = 4'b1000; #10;
+        // Test 10: SHIFT RIGHT
+        A = 16'd8; sel = 4'b1001; #10;
+        // End simulation
+        $finish;
+    end
+
+endmodule
